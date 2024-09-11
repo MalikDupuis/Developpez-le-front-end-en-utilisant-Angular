@@ -1,0 +1,27 @@
+<div class="container flex flex-col justify-center items-center p-8">
+    <div class="flex flex-col justify-center items-center">
+
+
+
+
+        <app-title-page title="Medals per Country"></app-title-page>
+
+
+        <div class="flex justify-center items-center gap-x-20 mt-5">
+
+
+            <app-information info="Number of entries" numberInfo="aa"></app-information>
+            <app-information info="Total number medals" numberInfo="aa"></app-information>
+            <app-information info="Total number of athletes" numberInfo="aa"></app-information>
+
+        </div>
+
+
+    </div>
+    <div class="mt-10">
+        <ngx-charts-line-chart [view]="view" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="chartData">
+        </ngx-charts-line-chart>
+    </div>
+</div>
