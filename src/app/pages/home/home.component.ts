@@ -52,8 +52,7 @@ export class HomeComponent implements OnInit {
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-    const e = this.chartData.find(e=>{e.name == data.name})
-    console.log(e)
-    //this.router.navigateByUrl(`/details`);
+    const e = this.chartData.find(({name})=>name == data.name)
+    this.router.navigateByUrl(`/details/${e.id}`);
   }
 }

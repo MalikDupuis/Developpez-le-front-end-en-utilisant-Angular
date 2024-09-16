@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, partition } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -14,6 +14,8 @@ export class DetailsComponent implements OnInit {
   title: string = 'Name Country';
 
   public olympics$: Observable<Olympic | undefined> = of(undefined); // Correct type
+  public totalAthleteCount: number = 0;
+  public totalMedalsCount: number = 0;
   view: [number, number] = [700, 300];
 
   // options
@@ -36,12 +38,18 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const olympicId = +this.route.snapshot.params['id']; // Ensure it's a number with + operator
-  
+    
     if (olympicId) {
       this.olympics$ = this.olympicService.getOlympicsById(olympicId);
   
       this.olympics$.subscribe(olympic => {
         if (olympic) {
+          olympic.participations.forEach(p => {
+            this.totalAthleteCount += p.athleteCount;
+          })
+          olympic.participations.forEach(p => {
+            this.totalMedalsCount += p.medalsCount;
+          })
           // Transform the data into the multi-series format
           const multi = olympic.participations.map(participation => ({
             name: olympic.country,  // Country name
