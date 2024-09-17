@@ -22,6 +22,10 @@
 
         <div>
             <ngx-charts-pie-chart [view]="view" [results]="chartData" [gradient]="gradient"  [labels]="showLabels" [doughnut]="isDoughnut" (select)="onSelect($event)">
+                <ng-template #tooltipTemplate let-model="model">
+                    <div>{{model.name|json}}</div>
+                    <pre><lucide-icon class="w-4 absolute -ml-1.5 -mt-0.5" name="medal"/> {{model.value|json}}</pre>
+                  </ng-template>
             </ngx-charts-pie-chart>
         </div>
 
