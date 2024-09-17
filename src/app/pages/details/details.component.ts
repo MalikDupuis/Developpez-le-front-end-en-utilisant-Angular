@@ -26,11 +26,12 @@ export class DetailsComponent implements OnInit {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  xAxisLabel: string = 'Date';
+  yAxisLabel: string = 'Medal Number';
   timeline: boolean = true;
 
   public chartData: any[] = [];
+tooltipDisabled: boolean = true;
 
   constructor(private route: ActivatedRoute,
     private olympicService: OlympicService 
