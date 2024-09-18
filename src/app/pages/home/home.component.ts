@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, of, Subscription } from 'rxjs';
 import { Olympic } from 'src/app/core/models/Olympic';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Color, id, LegendPosition } from '@swimlane/ngx-charts';
+import { LegendPosition } from '@swimlane/ngx-charts';
 import { Router } from '@angular/router';
+import { PieChart } from 'src/app/core/models/PieChart';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   view: [number, number] = [700, 400];
 
@@ -26,23 +27,25 @@ export class HomeComponent implements OnInit {
   };
 
   public olympics$: Observable<Olympic[]> = of([]);
-  public chartData: any[] = [];
+  public chartData: PieChart[] = [];
 
-  constructor(private olympicService: OlympicService,
+  private subscription: Subscription | null = null;
+
+  constructor(
+    private olympicService: OlympicService,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe(olympics => {
+    
+    this.subscription = this.olympics$.subscribe(olympics => {
       const chartData = olympics.map(olympic => {
         const totalMedals = (olympic.participations || []).reduce((acc, curr) => acc + (curr.medalsCount || 0), 0);
         return {
           name: olympic.country,
           value: totalMedals,
-          id:olympic.id
+          id: olympic.id
         };
       });
 
@@ -50,9 +53,17 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-    const e = this.chartData.find(({name})=>name == data.name)
-    this.router.navigateByUrl(`/details/${e.id}`);
+    const e = this.chartData.find(({ name }) => name == data.name);
+    if (e) {
+      this.router.navigateByUrl(`/details/${e.id}`);
+    }
   }
 }

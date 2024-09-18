@@ -19,6 +19,7 @@ export class OlympicService {
       catchError((error, caught) => {
         // TODO: improve error handling
         console.error(error);
+        alert(error)
         // can be useful to end loading state and let the user know something went wrong
         this.olympics$.next([]);
         return caught;
@@ -41,18 +42,13 @@ export class OlympicService {
           }
         })
   
-        // Log or handle the case where the Olympic is not found
         if (!olympic) {
-          console.warn(`Olympic with ID ${id} not found`);
+          throw new Error(`Olympic with ID ${id} not found`);
         }
         console.log(olympics)
         return olympic;
       }),
-      catchError(error => {
-        // Log the error and return undefined in case of an error
-        console.error('Error fetching Olympic by ID:', error);
-        return of(undefined); // Return undefined on error
-      })
+    
     );
   }
 }
