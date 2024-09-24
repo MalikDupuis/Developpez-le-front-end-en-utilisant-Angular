@@ -13,10 +13,11 @@ import { HeaderComponent } from './header/header.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { TitlePageComponent } from './title-page/title-page.component';
 import { InformationComponent } from "./information/information.component";
+import { LucideAngularModule, File, Home, Menu, UserCheck, Medal  } from 'lucide-angular';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailsComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgxChartsModule, BrowserAnimationsModule, HeaderComponent, TitlePageComponent, InformationComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, NgxChartsModule, BrowserAnimationsModule, HeaderComponent, TitlePageComponent, InformationComponent,LucideAngularModule.pick({File, Medal , Menu, UserCheck})],
   providers: [],
   bootstrap: [AppComponent],
 })
